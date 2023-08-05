@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Art Space App</string>
+
+    <string name="text_1">A beautiful image of Silicon Valley Bridge</string>
+    <string name="text_2">The island of gods, Bali</string>
+    <string name="text_3">The las Vegas of India, Goa</string>
+    <string name="text_4">The beautiful capital of Thailand, Bangkok</string>
+
+    <string name="author">Thet</string>
+    <string name="year">2023</string>
+
+
+</resources>

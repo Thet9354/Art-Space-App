@@ -7,9 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -17,9 +15,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
@@ -30,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.artspaceapp.ui.theme.ArtSpaceAppTheme
+import com.skydoves.cloudy.Cloudy
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
+                    color = Color(android.graphics.Color.parseColor("#12131A"))
                 ) {
                     ArtSpaceDisplay()
                 }
@@ -47,6 +47,8 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+
 
 @Composable
 fun ArtSpaceDisplay() {
@@ -101,7 +103,7 @@ fun artSpaceDisplayLandscape()
             Spacer(modifier = Modifier.height(10.dp))
 
             Surface(
-                modifier=Modifier
+                modifier= Modifier
                     .fillMaxHeight(0.65f)
                     .fillMaxWidth(1f)
                     .border(BorderStroke(3.dp, SolidColor(Color.White)), RectangleShape)
@@ -142,6 +144,8 @@ fun artSpaceDisplayLandscape()
         },
     )
 }
+
+
 @Composable
 fun artSpaceDisplayPortrait() {
     var displayImage by remember {
@@ -168,10 +172,37 @@ fun artSpaceDisplayPortrait() {
     }
     Column(
         modifier = Modifier
-            .padding(15.dp)
+            .padding(5.dp)
             .fillMaxHeight()
     ) {
-        Spacer(modifier = Modifier.height(40.dp))
+
+        Row(
+            modifier = Modifier
+                .padding(5.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.End
+        ) {
+            Cloudy(radius = 5) {
+                Image(painterResource(id = R.drawable.img),
+                    contentDescription = "Notification Bell",
+                    modifier = Modifier
+                        .size(35.dp))
+            }
+
+            Spacer(modifier = Modifier.width(10.dp))
+
+
+                Image(painterResource(id = R.drawable.camera_ic),
+                    contentDescription = "Notification Bell",
+                    modifier = Modifier
+                        .size(35.dp))
+
+        }
+
+
+
+        Spacer(modifier = Modifier.height(30.dp))
+
         Surface(
             modifier = Modifier
                 .fillMaxHeight(0.65f)
@@ -182,10 +213,12 @@ fun artSpaceDisplayPortrait() {
                 .align(alignment = Alignment.CenterHorizontally),
             shape = RoundedCornerShape(5.dp),
         ) {
-            artworkImageFun(imageResource = imageResource,stringResource=stringResource)
+            Cloudy(radius = 5) {
+                artworkImageFun(imageResource = imageResource,stringResource=stringResource)
+            }
 
         }
-        Spacer(modifier = Modifier.height(60.dp))
+        Spacer(modifier = Modifier.height(40.dp))
         artworkContentFun(stringResource=stringResource)
         Spacer(modifier = Modifier.height(20.dp))
     }
@@ -221,6 +254,7 @@ fun artworkImageFun(
     @StringRes stringResource: Int
 )
 {
+
     Image(
         painter = painterResource(
             imageResource,
@@ -304,44 +338,58 @@ fun artworkButtonsFun(
         verticalAlignment = Alignment.Bottom
 
     ) {
-        Button(
-            onClick = {
-                if (displayImage != 0 && displayDescription != 0) {
-                    displayMinus1(displayImage)
+        Cloudy(radius = 5) {
+            Button(
+                onClick = {
+                    if (displayImage != 0 && displayDescription != 0) {
+                        displayMinus1(displayImage)
 
-                } else if (displayImage == 0 && displayDescription == 0) {
-                    displayEq3(displayImage)
-                }
-            },
-            shape = RoundedCornerShape(20.dp),
-            modifier = Modifier.width(150.dp),
-        ) {
-            Text(
-                text = "Previous",
-                color = Color.White
-            )
+                    } else if (displayImage == 0 && displayDescription == 0) {
+                        displayEq3(displayImage)
+                    }
+                },
+                shape = RoundedCornerShape(20.dp),
+                modifier = Modifier.width(150.dp),
+            ) {
+                Text(
+                    text = "Previous",
+                    color = Color.White
+                )
+            }
         }
+
         Spacer(modifier = Modifier.weight(1f))
-        Button(
-            onClick = {
-                if (displayImage <3 && displayDescription<3) {
-                    displayPlus1(displayImage)
 
-                } else if (displayImage == 3 && displayDescription == 3) {
-                    displayEq0(displayImage)
+        Cloudy(radius = 5) {
+            Button(
+                onClick = {
+                    if (displayImage <3 && displayDescription<3) {
+                        displayPlus1(displayImage)
 
-                }
-            },
-            shape = RoundedCornerShape(20.dp),
-            modifier = Modifier.width(150.dp)
-        )
-        {
-            Text(
-                text = "Next",
-                color = Color.White
+                    } else if (displayImage == 3 && displayDescription == 3) {
+                        displayEq0(displayImage)
+
+                    }
+                },
+                shape = RoundedCornerShape(20.dp),
+                modifier = Modifier.width(150.dp)
             )
+            {
+                Text(
+                    text = "Next",
+                    color = Color.White
+                )
+            }
         }
 
+
+    }
+}
+
+@Composable
+fun blurEffect() {
+    Cloudy {
+        Text(text = "This text is blurred")
     }
 }
 
